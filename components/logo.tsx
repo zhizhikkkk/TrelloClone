@@ -1,17 +1,12 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Poppins } from "next/font/google"
+import localFont from "next/font/local";
 
 import { cn } from "@/lib/utils"
 
-const textFont = Poppins({
-    subsets: ["latin"],
-    weight: [
-        "200",
-        "400",
-        "600"
-    ]
-})
+const headingFont = localFont({
+    src: "../public/fonts/font.woff2",
+  });
 
 export const Logo = () => {
     return <Link href="/">
@@ -24,7 +19,7 @@ export const Logo = () => {
             />
             <p className={cn(
                 "text-lg text-neutral-700 pb-1",
-                textFont.className
+                headingFont.className
                 )}>
                 Taskify
             </p>

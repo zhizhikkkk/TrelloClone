@@ -7,15 +7,21 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 const headingFont = localFont({
-    src: "../../public/fonts/GeistVF.woff"
+    src: "../../public/fonts/font.woff2"
 });
 
 const textFont = Poppins({
     subsets: ["latin"],
     weight: [
+        "100",
         "200",
+        "300",
         "400",
-        "600"
+        "500",
+        "600",
+        "700",
+        "800",
+        "900"
     ]
 })
 
