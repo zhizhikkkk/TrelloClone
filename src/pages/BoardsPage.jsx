@@ -1,6 +1,6 @@
 import { AddBoard } from "../components/AddBoard";
 import { Navbar } from "../components/Navbar";
-import { Board } from "../components/Board";
+import Board from "../components/Board";
 import { useBoards } from "../hooks/BoardsProvider";
 
 const BoardsPage = () => {

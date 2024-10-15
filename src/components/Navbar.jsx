@@ -1,9 +1,9 @@
 import { Logo } from "./Logo";
 import { Button } from "./Button";
-import { Link } from "react-router-dom";
 import { Conditional } from "./Conditional";
 import { useLogin } from "../hooks/LoginProvider";
 import { useNavigate } from "react-router-dom";
+import { LinkButton } from "./LinkButton";
 
 export const Navbar = () => {
   const { user, logout } = useLogin();
@@ -22,9 +22,7 @@ export const Navbar = () => {
         <Logo />
         <Conditional condition={!user}>
           <div className="flex space-x-4">
-            <Link to="/login">
-              <Button>Login</Button>
-            </Link>
+            <LinkButton to="/login">Login</LinkButton>
             <Button>Get Taskify for free</Button>
           </div>
         </Conditional>
