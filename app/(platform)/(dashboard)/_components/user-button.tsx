@@ -6,9 +6,11 @@ import { Button } from "../../../../components/ui/button";
 import { Conditional } from "../../../../components/ui/conditional";
 import { signOutStub } from "@/lib/auth-stub";
 import { useRouter } from "next/navigation";
+import useUser from "@/hooks/use-user";
 
 const UserButton = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const user = useUser();
   const router = useRouter();
 
   const handleToggleMenu = () => {
@@ -32,7 +34,7 @@ const UserButton = () => {
         className="rounded-full bg-amber-500 w-10 h-10  shadow-sm flex items-center justify-center"
         onClick={() => handleToggleMenu()}
       >
-        <div className="text-lg text-white">A</div>
+        <div className="text-lg text-white">{user?.charAt(0)}</div>
       </div>
 
       <Conditional condition={isMenuOpen}>
