@@ -6,6 +6,8 @@ import BoardsPage from "./pages/BoardsPage";
 import BoardTasksPage from "./pages/BoardTasksPage";
 import { BoardsProvider } from "./hooks/BoardsProvider";
 import { LoginProvider } from "./hooks/LoginProvider";
+import ProtectedRoute from "./components/ProtectedRoute";
+import RegisterPage from "./pages/RegisterPage";
 
 const App = () => {
   return (
@@ -14,7 +16,14 @@ const App = () => {
         <Route element={<LoginProvider />}>
           <Route path="/" element={<MarketingPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route element={<BoardsProvider />}>
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            element={
+              <ProtectedRoute>
+                <BoardsProvider />
+              </ProtectedRoute>
+            }
+          >
             <Route path="/boards" element={<BoardsPage />} />
             <Route path="/boards/:boardId/tasks" element={<BoardTasksPage />} />
           </Route>

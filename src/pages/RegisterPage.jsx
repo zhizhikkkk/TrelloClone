@@ -2,45 +2,43 @@ import { Button } from "../components/Button";
 import React, { useState } from "react";
 import { useLogin } from "../hooks/LoginProvider";
 import { useNavigate } from "react-router-dom";
-import { Logo } from "../components/Logo"; // Импортируем компонент логотипа
+import { Logo } from "../components/Logo";
 
-const LoginPage = () => {
-  const { login, error } = useLogin();
+const RegisterPage = () => {
+  const { register, error } = useLogin();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState("");
+  const [registerError, setRegisterError] = useState("");
   const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
-    setLoginError(""); // Сбрасываем ошибку при изменении имени
+    setRegisterError(""); // Clear error when updating username
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setLoginError(""); // Сбрасываем ошибку при изменении пароля
+    setRegisterError(""); // Clear error when updating password
   };
 
-  const handleLogin = (event) => {
+  const handleRegister = (event) => {
     event.preventDefault();
-    const credentials = { username, password };
-    
-    // Пытаемся залогиниться
-    const success = login(credentials);
+    const newUser = { username, password };
 
-    // Проверяем результат входа
+    const success = register(newUser);
+
     if (success) {
-      navigate("/boards"); // Перенаправляем на BoardPage
+      navigate("/boards"); // Redirect to boards page
     } else {
-      setLoginError("Wrong credentials"); // Устанавливаем ошибку
-      setUsername(""); // Очищаем поля ввода
+      setRegisterError(error || "Failed to register");
+      setUsername("");
       setPassword("");
     }
   };
 
   return (
     <div className="font-trello h-screen w-screen bg-slate-100 flex flex-col items-center justify-center">
-      <Logo /> {/* Добавляем логотип, который ведет на MarketingPage */}
+      <Logo />
       <div className="w-96 mb-14">
         <div className="text-3xl mb-4 text-center">Taskify</div>
         <div className="mb-4">
@@ -63,13 +61,13 @@ const LoginPage = () => {
             onChange={handlePasswordChange}
           />
         </div>
-        {loginError && <div className="text-red-500 mb-4">{loginError}</div>} {/* Выводим сообщение об ошибке */}
-        <Button className="w-full" onClick={handleLogin}>
-          Login
+        {registerError && <div className="text-red-500 mb-4">{registerError}</div>}
+        <Button className="w-full" onClick={handleRegister}>
+          Register
         </Button>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

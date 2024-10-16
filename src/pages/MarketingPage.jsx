@@ -13,7 +13,7 @@ const MarketingPage = () => {
     if (user) {
       navigate("/boards"); // Если залогинен, перенаправляем на BoardsPage
     } else {
-      navigate("/login"); // Если не залогинен, перенаправляем на LoginPage
+      navigate("/register"); // Если не залогинен, перенаправляем на LoginPage
     }
   };
 

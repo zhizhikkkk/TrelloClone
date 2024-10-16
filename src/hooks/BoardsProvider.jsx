@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { Outlet } from "react-router-dom";
 
 const BoardsContext = createContext();
@@ -8,11 +8,12 @@ export const useBoards = () => {
 };
 
 export const BoardsProvider = () => {
-  const getRandomId = () => {
-    return Math.random().toString(36).substring(2, 10);
-  };
+  const getRandomId = useMemo(
+    () => () => Math.random().toString(36).substring(2, 10),
+    []
+  );
 
-  const getRandomColor = () => {
+  const getRandomColor = useMemo(() => {
     const colors = [
       "#7a5195",
       "#ef5675",
@@ -24,28 +25,38 @@ export const BoardsProvider = () => {
       "#ff165d",
       "#f0e130",
     ];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
+    return () => colors[Math.floor(Math.random() * colors.length)];
+  }, []); // ? relevant?
 
   // Инициализируем состояние из localStorage, если оно есть
-  const initialBoards = JSON.parse(localStorage.getItem("boards")) || [
-    { id: "1", name: "Work", color: getRandomColor() },
-    { id: "2", name: "Home", color: getRandomColor() },
-    { id: "3", name: "School", color: getRandomColor() },
-  ];
+  const initialBoards = useMemo(() => {
+    return (
+      JSON.parse(localStorage.getItem("boards")) || [
+        { id: "1", name: "Work", color: getRandomColor() },
+        { id: "2", name: "Home", color: getRandomColor() },
+        { id: "3", name: "School", color: getRandomColor() },
+      ]
+    );
+  }, [getRandomColor]);
 
   const [boardsList, setBoardsList] = useState(initialBoards);
 
-  const handleAddBoard = (newBoardName) => {
-    const newBoardId = getRandomId();
-    const newBoard = { id: newBoardId, name: newBoardName, color: getRandomColor() };
-    setBoardsList((prevBoards) => {
-      const updatedBoards = [...prevBoards, newBoard];
-      // Сохраняем обновленный список досок в localStorage
-      localStorage.setItem("boards", JSON.stringify(updatedBoards));
-      return updatedBoards;
-    });
-  };
+  const handleAddBoard = useCallback(
+    (newBoardName) => {
+      const newBoardId = getRandomId();
+      const newBoard = { 
+        id: newBoardId, 
+        name: newBoardName, 
+        color: getRandomColor() 
+      };
+      setBoardsList((prevBoards) => {
+        const updatedBoards = [...prevBoards, newBoard];
+        localStorage.setItem("boards", JSON.stringify(updatedBoards)); // Save to localStorage
+        return updatedBoards;
+      });
+    },
+    [getRandomId, getRandomColor] // Dependencies for memoization
+  );
 
   // Добавляем метод для удаления доски
   const handleDeleteBoard = (boardId) => {
