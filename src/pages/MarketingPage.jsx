@@ -2,8 +2,21 @@ import { Medal } from "lucide-react";
 import { Button } from "../components/Button";
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
+import { useLogin } from "../hooks/LoginProvider"; // Импортируем useLogin
+import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 
 const MarketingPage = () => {
+  const { user } = useLogin(); // Получаем состояние пользователя
+  const navigate = useNavigate(); // Инициализируем useNavigate
+
+  const handleGetTaskifyClick = () => {
+    if (user) {
+      navigate("/boards"); // Если залогинен, перенаправляем на BoardsPage
+    } else {
+      navigate("/login"); // Если не залогинен, перенаправляем на LoginPage
+    }
+  };
+
   return (
     <div className="font-trello h-screen w-screen bg-slate-100 flex items-center justify-center">
       <Navbar />
@@ -25,7 +38,8 @@ const MarketingPage = () => {
           high rises to the home office, the way your team works is unique -
           accomplish it all with Taskify.
         </div>
-        <Button>Get Taskify for free</Button>
+        {/* Изменяем кнопку для перенаправления */}
+        <Button onClick={handleGetTaskifyClick}>Get Taskify for free</Button>
       </div>
       <Footer />
     </div>

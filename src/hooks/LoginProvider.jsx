@@ -9,20 +9,26 @@ export const useLogin = () => {
 
 export const LoginProvider = () => {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState("");
 
   const users = [
-    { username: "user", password: "password" },
+    { username: "Ivan", password: "Ivan123" },
     { username: "admin", password: "admin" },
   ];
 
   const login = (credentials) => {
-    const user = users.find(
+    const foundUser = users.find(
       (u) =>
         u.username === credentials.username &&
         u.password === credentials.password
     );
-    if (!user) return;
+    if (!foundUser) {
+      setError("Неверный логин или пароль");
+      return false; // Возвращаем false при неверных данных
+    }
     setUser(credentials.username);
+    setError(""); // Сбрасываем ошибку при успешном входе
+    return true; // Возвращаем true при успешном входе
   };
 
   const logout = () => {
@@ -30,7 +36,7 @@ export const LoginProvider = () => {
   };
 
   return (
-    <LoginContext.Provider value={{ user, login, logout }}>
+    <LoginContext.Provider value={{ user, login, logout, error }}>
       <Outlet />
     </LoginContext.Provider>
   );

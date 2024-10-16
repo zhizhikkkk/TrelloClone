@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 const BoardsContext = createContext();
@@ -27,22 +27,42 @@ export const BoardsProvider = () => {
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  const [boardsList, setBoardsList] = useState([
+  // Инициализируем состояние из localStorage, если оно есть
+  const initialBoards = JSON.parse(localStorage.getItem("boards")) || [
     { id: "1", name: "Work", color: getRandomColor() },
     { id: "2", name: "Home", color: getRandomColor() },
     { id: "3", name: "School", color: getRandomColor() },
-  ]);
+  ];
+
+  const [boardsList, setBoardsList] = useState(initialBoards);
 
   const handleAddBoard = (newBoardName) => {
     const newBoardId = getRandomId();
-    setBoardsList((prevBoards) => [
-      ...prevBoards,
-      { id: newBoardId, name: newBoardName, color: getRandomColor() },
-    ]);
+    const newBoard = { id: newBoardId, name: newBoardName, color: getRandomColor() };
+    setBoardsList((prevBoards) => {
+      const updatedBoards = [...prevBoards, newBoard];
+      // Сохраняем обновленный список досок в localStorage
+      localStorage.setItem("boards", JSON.stringify(updatedBoards));
+      return updatedBoards;
+    });
   };
 
+  // Добавляем метод для удаления доски
+  const handleDeleteBoard = (boardId) => {
+    setBoardsList((prevBoards) => {
+      const updatedBoards = prevBoards.filter((board) => board.id !== boardId);
+      localStorage.setItem("boards", JSON.stringify(updatedBoards)); // Сохраняем изменения
+      return updatedBoards;
+    });
+  };
+
+  // Используем useEffect для сохранения изменений в localStorage
+  useEffect(() => {
+    localStorage.setItem("boards", JSON.stringify(boardsList));
+  }, [boardsList]);
+
   return (
-    <BoardsContext.Provider value={{ boardsList, handleAddBoard }}>
+    <BoardsContext.Provider value={{ boardsList, handleAddBoard, handleDeleteBoard }}>
       <Outlet />
     </BoardsContext.Provider>
   );

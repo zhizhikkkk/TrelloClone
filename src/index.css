@@ -8,3 +8,18 @@
   font-weight: normal;
   font-style: normal;
 }
+
+.delete-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 10px;
+  position: absolute; /* Позволяет расположить кнопку в нужном месте */
+  top: 10px; /* Отступ сверху */
+  right: 10px; /* Отступ справа */
+}
+
+.delete-button:hover {
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Эффект тени при наведении */
+}
