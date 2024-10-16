@@ -67,7 +67,7 @@ const BoardTasksPage = () => {
     >
       <Navbar />
       <div className="pt-24 pb-8 px-6 text-white bg-neutral-900 bg-opacity-50">
-        <Button onClick={() => navigate("/boards")}>Назад к доскам</Button>
+        <Button className="mb-3" onClick={() => navigate("/boards")}>Back to Boards</Button>
         <h1 className="text-2xl">{board.name}</h1>
       </div>
       <div className="py-24 px-6 flex">
@@ -87,10 +87,10 @@ const BoardTasksPage = () => {
             type="text"
             value={newColumnTitle}
             onChange={(e) => setNewColumnTitle(e.target.value)}
-            placeholder="Добавьте колонку"
-            className="border rounded p-1 w-full"
+            placeholder="Task list name"
+            className="border rounded p-1 w-full mb-3"
           />
-          <Button onClick={handleAddColumn}>Добавить колонку</Button>
+          <Button onClick={handleAddColumn}>Add Task List</Button>
         </div>
       </div>
     </div>

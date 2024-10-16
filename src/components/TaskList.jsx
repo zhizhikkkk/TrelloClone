@@ -48,7 +48,7 @@ const TaskList = ({
             className="border rounded p-1 w-3/4"
           />
         ) : (
-          <h2 className="font-bold">{column.title}</h2>
+          <h2 className="font-bold mb-4">{column.title}</h2>
         )}
         <button
           onClick={() => setMenuVisible(!menuVisible)}
@@ -64,9 +64,9 @@ const TaskList = ({
           {isEditing ? (
             <>
               <Button onClick={handleSaveEditedColumn} className="mb-2">
-                Сохранить
+                Save
               </Button>
-              <Button onClick={handleCancelEdit}>Отмена</Button>
+              <Button onClick={handleCancelEdit}>Cancel</Button>
             </>
           ) : (
             <>
@@ -74,23 +74,23 @@ const TaskList = ({
               <Button
                 onClick={handleEditColumn}
                 className="mb-2 text-left break-words max-w-full"
-                title="Переименовать"
+                title="Rename"
               >
-                Переименовать
+                Rename
               </Button>
               <Button
                 onClick={() => onDeleteColumn(column.id)}
                 className="mb-2 text-left break-words max-w-full"
-                title="Удалить"
+                title="Delete"
               >
-                Удалить
+                Delete
               </Button>
               <Button
                 onClick={() => onCopyColumn(column)}
                 className="text-left break-words max-w-full"
-                title="Копировать"
+                title="Copy"
               >
-                Копировать
+                Copy
               </Button>
             </>
           )}
@@ -110,15 +110,15 @@ const TaskList = ({
               type="text"
               value={newTaskTitle}
               onChange={(e) => setNewTaskTitle(e.target.value)}
-              placeholder="Добавьте задачу"
-              className="border rounded p-1 w-full mt-2"
+              placeholder="Add Task"
+              className="border rounded p-1 w-full mt-2 mb-4"
             />
-            <Button onClick={handleAddTask}>Добавить карточку</Button>
+            <Button onClick={handleAddTask}>Add Task</Button>
           </>
         ) : (
           !isEditing && (
             <Button onClick={() => setTaskInputVisible(true)}>
-              Добавить карточку
+              Add Task
             </Button>
           )
         )}
